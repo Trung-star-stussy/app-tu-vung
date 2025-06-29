@@ -1,0 +1,259 @@
+{
+    "words": [
+      {
+        "word": "car",
+        "meaning": "ô tô, xe hơi",
+        "category": "transportation"
+      },
+      {
+        "word": "bus",
+        "meaning": "xe buýt",
+        "category": "transportation"
+      },
+      {
+        "word": "train",
+        "meaning": "tàu hỏa",
+        "category": "transportation"
+      },
+      {
+        "word": "airplane",
+        "meaning": "máy bay",
+        "category": "transportation"
+      },
+      {
+        "word": "bicycle",
+        "meaning": "xe đạp",
+        "category": "transportation"
+      },
+      {
+        "word": "motorcycle",
+        "meaning": "xe máy",
+        "category": "transportation"
+      },
+      {
+        "word": "truck",
+        "meaning": "xe tải",
+        "category": "transportation"
+      },
+      {
+        "word": "taxi",
+        "meaning": "xe taxi",
+        "category": "transportation"
+      },
+      {
+        "word": "ship",
+        "meaning": "tàu thủy",
+        "category": "transportation"
+      },
+      {
+        "word": "boat",
+        "meaning": "thuyền",
+        "category": "transportation"
+      },
+      {
+        "word": "subway",
+        "meaning": "tàu điện ngầm",
+        "category": "transportation"
+      },
+      {
+        "word": "helicopter",
+        "meaning": "trực thăng",
+        "category": "transportation"
+      },
+      {
+        "word": "road",
+        "meaning": "đường",
+        "category": "infrastructure"
+      },
+      {
+        "word": "street",
+        "meaning": "phố",
+        "category": "infrastructure"
+      },
+      {
+        "word": "highway",
+        "meaning": "đường cao tốc",
+        "category": "infrastructure"
+      },
+      {
+        "word": "bridge",
+        "meaning": "cây cầu",
+        "category": "infrastructure"
+      },
+      {
+        "word": "tunnel",
+        "meaning": "đường hầm",
+        "category": "infrastructure"
+      },
+      {
+        "word": "intersection",
+        "meaning": "ngã tư",
+        "category": "infrastructure"
+      },
+      {
+        "word": "roundabout",
+        "meaning": "vòng xuyến",
+        "category": "infrastructure"
+      },
+      {
+        "word": "sidewalk",
+        "meaning": "vỉa hè",
+        "category": "infrastructure"
+      },
+      {
+        "word": "crosswalk",
+        "meaning": "vạch kẻ đường",
+        "category": "infrastructure"
+      },
+      {
+        "word": "parking lot",
+        "meaning": "bãi đỗ xe",
+        "category": "infrastructure"
+      },
+      {
+        "word": "gas station",
+        "meaning": "trạm xăng",
+        "category": "infrastructure"
+      },
+      {
+        "word": "airport",
+        "meaning": "sân bay",
+        "category": "infrastructure"
+      },
+      {
+        "word": "train station",
+        "meaning": "nhà ga",
+        "category": "infrastructure"
+      },
+      {
+        "word": "bus stop",
+        "meaning": "trạm xe buýt",
+        "category": "infrastructure"
+      },
+      {
+        "word": "traffic light",
+        "meaning": "đèn giao thông",
+        "category": "traffic_signs"
+      },
+      {
+        "word": "stop sign",
+        "meaning": "biển báo dừng",
+        "category": "traffic_signs"
+      },
+      {
+        "word": "speed limit",
+        "meaning": "giới hạn tốc độ",
+        "category": "traffic_signs"
+      },
+      {
+        "word": "one way",
+        "meaning": "một chiều",
+        "category": "traffic_signs"
+      },
+      {
+        "word": "no parking",
+        "meaning": "cấm đỗ xe",
+        "category": "traffic_signs"
+      },
+      {
+        "word": "yield",
+        "meaning": "nhường đường",
+        "category": "traffic_signs"
+      },
+      {
+        "word": "detour",
+        "meaning": "đường vòng",
+        "category": "traffic_signs"
+      },
+      {
+        "word": "pedestrian",
+        "meaning": "người đi bộ",
+        "category": "traffic_signs"
+      },
+      {
+        "word": "driver",
+        "meaning": "tài xế",
+        "category": "people"
+      },
+      {
+        "word": "passenger",
+        "meaning": "hành khách",
+        "category": "people"
+      },
+      {
+        "word": "pedestrian",
+        "meaning": "người đi bộ",
+        "category": "people"
+      },
+      {
+        "word": "police officer",
+        "meaning": "cảnh sát giao thông",
+        "category": "people"
+      },
+      {
+        "word": "drive",
+        "meaning": "lái xe",
+        "category": "actions"
+      },
+      {
+        "word": "park",
+        "meaning": "đỗ xe",
+        "category": "actions"
+      },
+      {
+        "word": "stop",
+        "meaning": "dừng lại",
+        "category": "actions"
+      },
+      {
+        "word": "turn left",
+        "meaning": "rẽ trái",
+        "category": "actions"
+      },
+      {
+        "word": "turn right",
+        "meaning": "rẽ phải",
+        "category": "actions"
+      },
+      {
+        "word": "go straight",
+        "meaning": "đi thẳng",
+        "category": "actions"
+      },
+      {
+        "word": "reverse",
+        "meaning": "lùi xe",
+        "category": "actions"
+      },
+      {
+        "word": "overtake",
+        "meaning": "vượt xe",
+        "category": "actions"
+      },
+      {
+        "word": "brake",
+        "meaning": "phanh xe",
+        "category": "actions"
+      },
+      {
+        "word": "accelerate",
+        "meaning": "tăng tốc",
+        "category": "actions"
+      },
+      {
+        "word": "traffic jam",
+        "meaning": "kẹt xe",
+        "category": "situations"
+      },
+      {
+        "word": "accident",
+        "meaning": "tai nạn",
+        "category": "situations"
+      },
+      {
+        "word": "rush hour",
+        "meaning": "giờ cao điểm",
+        "category": "situations"
+      }
+    ]
+  }

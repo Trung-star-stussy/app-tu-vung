@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Từ vựng Tiếng anh</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" href="thietke3.css">
+</head>
+<body class="bg-light">
+  <div class="container py-5">
+    <!-- Header -->
+    <div class="text-center mb-5">
+      <h1 class="display-4 text-primary mb-3">🎌 Học từ vựng tiếng anh</h1>
+      <p class="lead text-muted">Sử dụng flashcard để ghi nhớ hiệu quả</p>
+      
+      <!-- Chuyển đổi chế độ -->
+      <div class="btn-group mb-3" role="group" aria-label="Chế độ học">
+        <button id="flashcard-mode" class="btn btn-primary active">📚 Flashcard</button>
+        <button id="quiz-mode" class="btn btn-outline-primary">✍️ Kiểm tra viết</button>
+      </div>
+    </div>
+
+    <!-- Form thêm từ -->
+    <div class="card mb-4 animate__animated animate__fadeInUp">
+      <div class="card-body">
+        <h2 class="card-title text-center mb-4">➕ Thêm từ mới</h2>
+        <form id="add-word-form">
+          <div class="row g-3">
+            <div class="col-md-5">
+              <label for="word" class="form-label fw-bold">Từ vựng (Tiếng anh)</label>
+              <input type="text" id="word" class="form-control form-control-lg" placeholder="例: 食べます" required>
+            </div>
+            <div class="col-md-5">
+              <label for="meaning" class="form-label fw-bold">Nghĩa (Tiếng Việt)</label>
+              <input type="text" id="meaning" class="form-control form-control-lg" placeholder="例: ăn" required>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+              <button type="submit" id="add-btn" class="btn btn-primary btn-lg w-100">Thêm</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Flashcard -->
+    <div id="flashcard-section" class="card mb-4 animate__animated animate__fadeInUp animate__delay-1s">
+      <div class="card-body text-center">
+        <h2 class="card-title mb-4">📚 Ôn tập</h2>
+        <div id="flashcard" class="flashcard mx-auto">
+          <div class="front">Nhấn để bắt đầu</div>
+          <div class="back">Click để lật thẻ</div>
+        </div>
+        <p id="progress-text" class="mt-3 text-muted"></p>
+        <div class="mt-4">
+          <button id="next-btn" class="btn btn-secondary btn-lg me-2">Từ tiếp theo →</button>
+          <button id="shuffle-btn" class="btn btn-success btn-lg">🔀 Xáo trộn</button>
+        </div>
+        <div class="mt-3">
+          <small class="text-muted">
+            💡 <strong>Phím tắt:</strong> Space (lật thẻ), Enter/→ (từ tiếp), Ctrl+R (xáo trộn)
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chế độ kiểm tra viết -->
+    <div id="quiz-section" class="card mb-4 animate__animated animate__fadeInUp" style="display: none;">
+      <div class="card-body text-center">
+        <h2 class="card-title mb-4">✍️ Kiểm tra viết</h2>
+        
+        <!-- Hiển thị điểm số -->
+        <div class="score-display mb-4">
+          <div class="d-flex justify-content-center">
+            <div class="bg-primary text-white rounded-pill py-2 px-4 fw-bold">
+              <span id="current-score">0</span> / <span id="total-questions">0</span>
+              <span class="ms-2">🎯</span>
+            </div>
+          </div>
+          <div class="progress mt-2" style="height: 10px;">
+            <div id="score-progress" class="progress-bar bg-primary" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+        
+        <!-- Câu hỏi -->
+        <div class="quiz-question mb-4">
+          <h3 id="quiz-word" class="display-3 mb-4 text-primary">準備中...</h3>
+          <div class="form-floating mx-auto" style="max-width: 400px;">
+            <input type="text" class="form-control form-control-lg" id="answer-input" placeholder="Nhập nghĩa" autocomplete="off">
+            <label for="answer-input">Nhập nghĩa của từ trên</label>
+          </div>
+          <div id="answer-feedback" class="mt-3 fw-bold" style="min-height: 2rem;"></div>
+        </div>
+        
+        <!-- Nút điều khiển -->
+        <div class="mt-4">
+          <button id="check-answer-btn" class="btn btn-primary btn-lg me-2">Kiểm tra</button>
+          <button id="next-question-btn" class="btn btn-secondary btn-lg" disabled>Câu tiếp theo →</button>
+        </div>
+        
+        <div class="mt-3">
+          <small class="text-muted">
+            💡 <strong>Phím tắt:</strong> Enter (kiểm tra/câu tiếp theo)
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Danh sách từ -->
+    <div class="card animate__animated animate__fadeInUp animate__delay-2s">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2 class="card-title mb-0">📝 Danh sách từ vựng</h2>
+          <div class="d-flex align-items-center gap-2">
+            <span class="badge bg-primary rounded-pill" id="word-count">0 từ</span>
+            <div class="btn-group btn-group-sm" role="group">
+              <button type="button" class="btn btn-outline-primary" onclick="loadSampleData()" title="Tải từ mẫu">
+                📥 Mẫu
+              </button>
+              <button type="button" class="btn btn-outline-success" onclick="exportToJSON()" title="Export JSON">
+                📤 JSON
+              </button>
+              <button type="button" class="btn btn-outline-info" onclick="exportToCSV()" title="Export CSV">
+                📊 CSV
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Import section -->
+        <div class="mb-3 p-3 bg-light rounded">
+          <h6 class="mb-2">📁 Import dữ liệu:</h6>
+          <div class="row g-2">
+            <div class="col-md-6">
+              <input type="file" id="import-json" accept=".json" style="display: none;" onchange="handleFileImport(this, 'json')">
+              <button type="button" class="btn btn-outline-primary btn-sm w-100" onclick="document.getElementById('import-json').click()">
+                📄 Import JSON
+              </button>
+            </div>
+            <div class="col-md-6">
+              <input type="file" id="import-csv" accept=".csv" style="display: none;" onchange="handleFileImport(this, 'csv')">
+              <button type="button" class="btn btn-outline-info btn-sm w-100" onclick="document.getElementById('import-csv').click()">
+                📊 Import CSV
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div id="word-list" class="list-group list-group-flush"></div>
+        <div id="empty-list" class="text-center text-muted py-4" style="display: none;">
+          <p class="mb-0">Chưa có từ vựng nào. Hãy thêm từ đầu tiên hoặc import dữ liệu!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification container -->
+  <div id="notification" class="notification"></div>
+
+  <!-- Loading indicator -->
+  <div id="loading" class="loading-overlay" style="display: none;">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <script src="logic3.js"></script>
+</body>
+</html>
