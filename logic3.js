@@ -61,6 +61,10 @@ function showScoreForm() {
   finalTotalEl.textContent = totalQuestions;
   finalPercentageEl.textContent = percentage;
   
+  // ẨN PHẦN KIỂM TRA VÀ HIỂN THỊ FORM
+  document.querySelector('.quiz-question').style.display = 'none';
+  document.getElementById('next-question-btn').style.display = 'none';
+  document.getElementById('check-answer-btn').style.display = 'none';
   scoreForm.style.display = 'block';
   playerNameInput.focus();
 }
@@ -87,6 +91,9 @@ function saveScore() {
   localStorage.setItem('vocabLeaderboard', JSON.stringify(leaderboard));
   showNotification(`Đã lưu điểm cho ${playerName}!`);
   scoreForm.style.display = 'none';
+  // RESET VÀ BẮT ĐẦU LẠI
+  resetAndRestartQuiz();
+  startNewQuizRound();
   renderLeaderboard();
 }
 
@@ -131,11 +138,25 @@ function nextQuizQuestion() {
   if (currentQuizIndex === 0) {
     // Hiển thị form lưu điểm khi hoàn thành 1 vòng
     showScoreForm();
-    shuffleQuizWords();
+    //shuffleQuizWords();
     showNotification('Đã hoàn thành một vòng!');
+    return;
   }
   
   updateQuizQuestion();
+}
+
+// THÊM HÀM RESET VÀ BẮT ĐẦU LẠI
+function resetAndRestartQuiz() {
+  // RESET DỮ LIỆU
+  shuffleQuizWords();
+  updateQuizQuestion();
+  
+  // HIỂN THỊ LẠI PHẦN KIỂM TRA
+  document.querySelector('.quiz-question').style.display = 'block';
+  document.getElementById('next-question-btn').style.display = 'inline-block';
+  document.getElementById('check-answer-btn').style.display = 'inline-block';
+  scoreForm.style.display = 'none';
 }
 
 // Thêm event listeners
@@ -144,7 +165,7 @@ if (saveScoreBtn) {
 }
 if (cancelSaveBtn) {
   cancelSaveBtn.addEventListener('click', () => {
-    scoreForm.style.display = 'none';
+    resetAndRestartQuiz();
   });
 }
 // Hàm xáo trộn thứ tự từ (Fisher-Yates Shuffle)
@@ -176,9 +197,9 @@ function shuffleQuizWords() {
     [quizWords[i], quizWords[j]] = [quizWords[j], quizWords[i]];
   }
   currentQuizIndex = 0;
-  score = 0;
-  totalQuestions = 0;
-  updateScore();
+  //score = 0;
+  //totalQuestions = 0;
+  //updateScore();
   console.log('Đã chuẩn bị từ vựng cho chế độ kiểm tra!');
 }
 
@@ -290,11 +311,19 @@ function nextQuizQuestion() {
   
   // Nếu đã hết vòng, xáo trộn lại
   if (currentQuizIndex === 0) {
-    shuffleQuizWords();
-    showNotification('Đã hoàn thành một vòng! Xáo trộn lại thứ tự!');
+    showScoreForm();
+    showNotification('Đã hoàn thành một vòng!');
+    return; // DỪNG XỬ LÝ TIẾP
   }
   
   updateQuizQuestion();
+}
+
+// THÊM LOGIC RESET KHI BẮT ĐẦU VÒNG MỚI
+function startNewQuizRound() {
+  shuffleQuizWords();
+  updateQuizQuestion();
+  scoreForm.style.display = 'none';
 }
 
 // Chuyển đổi giữa chế độ flashcard và kiểm tra
@@ -313,9 +342,12 @@ function switchMode(mode) {
     quizModeBtn.classList.remove('btn-outline-primary');
     flashcardModeBtn.classList.remove('active', 'btn-primary');
     flashcardModeBtn.classList.add('btn-outline-primary');
-    
-    // Chuẩn bị cho chế độ kiểm tra
-    shuffleQuizWords();
+    score = 0;
+    totalQuestions = 0;
+    updateScore();
+    if (quizWords.length === 0) {
+      shuffleQuizWords();
+    }
     updateQuizQuestion();
   }
 }
@@ -526,6 +558,14 @@ if (checkAnswerBtn) {
 
 if (nextQuestionBtn) {
   nextQuestionBtn.addEventListener('click', nextQuizQuestion);
+}
+
+// CẬP NHẬT SỰ KIỆN NÚT HỦY
+if (cancelSaveBtn) {
+  cancelSaveBtn.addEventListener('click', () => {
+    scoreForm.style.display = 'none';
+    startNewQuizRound(); // BẮT ĐẦU VÒNG MỚI
+  });
 }
 
 // Event listener cho ô nhập câu trả lời
