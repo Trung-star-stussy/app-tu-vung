@@ -13,6 +13,16 @@ let score = 0;
 let totalQuestions = 0;
 let isAnswerChecked = false;
 
+let leaderboard = JSON.parse(localStorage.getItem('vocabLeaderboard')) || [];
+const scoreForm = document.getElementById('score-form');
+const finalScoreEl = document.getElementById('final-score');
+const finalTotalEl = document.getElementById('final-total');
+const finalPercentageEl = document.getElementById('final-percentage');
+const playerNameInput = document.getElementById('player-name');
+const saveScoreBtn = document.getElementById('save-score-btn');
+const cancelSaveBtn = document.getElementById('cancel-save-btn');
+const leaderboardEl = document.getElementById('leaderboard');
+
 // DOM Elements
 const flashcard = document.getElementById('flashcard');
 const frontText = document.querySelector('.front');
@@ -43,6 +53,100 @@ const currentScore = document.getElementById('current-score');
 const totalQuestionsEl = document.getElementById('total-questions');
 const scoreProgress = document.getElementById('score-progress');
 
+// Hàm hiển thị form lưu điểm
+function showScoreForm() {
+  const percentage = Math.round((score / totalQuestions) * 100);
+  
+  finalScoreEl.textContent = score;
+  finalTotalEl.textContent = totalQuestions;
+  finalPercentageEl.textContent = percentage;
+  
+  scoreForm.style.display = 'block';
+  playerNameInput.focus();
+}
+
+// Hàm lưu điểm vào localStorage
+function saveScore() {
+  const playerName = playerNameInput.value.trim() || 'Ẩn danh';
+  const percentage = Math.round((score / totalQuestions) * 100);
+  
+  leaderboard.push({
+    name: playerName,
+    score,
+    total: totalQuestions,
+    percentage,
+    date: new Date().toLocaleString()
+  });
+  
+  // Sắp xếp theo tỉ lệ phần trăm giảm dần
+  leaderboard.sort((a, b) => b.percentage - a.percentage);
+  
+  // Chỉ giữ top 10
+  leaderboard = leaderboard.slice(0, 10);
+  
+  localStorage.setItem('vocabLeaderboard', JSON.stringify(leaderboard));
+  showNotification(`Đã lưu điểm cho ${playerName}!`);
+  scoreForm.style.display = 'none';
+  renderLeaderboard();
+}
+
+// Hàm hiển thị bảng xếp hạng
+function renderLeaderboard() {
+  leaderboardEl.innerHTML = '';
+  
+  if (leaderboard.length === 0) {
+    leaderboardEl.innerHTML = `
+      <div class="text-center py-4 text-muted">
+        Chưa có dữ liệu xếp hạng
+      </div>
+    `;
+    return;
+  }
+  
+  leaderboard.forEach((entry, index) => {
+    const item = document.createElement('div');
+    item.className = 'list-group-item d-flex justify-content-between align-items-center';
+    
+    item.innerHTML = `
+      <div>
+        <span class="badge bg-primary me-2">${index + 1}</span>
+        <strong>${entry.name}</strong>
+      </div>
+      <div class="text-end">
+        <div>${entry.score}/${entry.total}</div>
+        <small class="text-muted">${entry.percentage}%</small>
+      </div>
+    `;
+    
+    leaderboardEl.appendChild(item);
+  });
+}
+
+// Cập nhật hàm nextQuizQuestion
+function nextQuizQuestion() {
+  if (quizWords.length === 0) return;
+  
+  currentQuizIndex = (currentQuizIndex + 1) % quizWords.length;
+  
+  if (currentQuizIndex === 0) {
+    // Hiển thị form lưu điểm khi hoàn thành 1 vòng
+    showScoreForm();
+    shuffleQuizWords();
+    showNotification('Đã hoàn thành một vòng!');
+  }
+  
+  updateQuizQuestion();
+}
+
+// Thêm event listeners
+if (saveScoreBtn) {
+  saveScoreBtn.addEventListener('click', saveScore);
+}
+if (cancelSaveBtn) {
+  cancelSaveBtn.addEventListener('click', () => {
+    scoreForm.style.display = 'none';
+  });
+}
 // Hàm xáo trộn thứ tự từ (Fisher-Yates Shuffle)
 function shuffleWords() {
   if (words.length === 0) {
@@ -495,6 +599,10 @@ function initApp() {
     shuffleWords();
     updateFlashcard();
     renderWordList();
+    renderLeaderboard();
+    shuffleWords();
+    updateFlashcard();
+    renderWordList();
     
     // Chuẩn bị cho chế độ kiểm tra
     shuffleQuizWords();
@@ -508,6 +616,15 @@ function initApp() {
     console.error('Lỗi khởi tạo ứng dụng:', error);
     showNotification('Có lỗi xảy ra khi khởi tạo ứng dụng!', 'error');
   }
+}
+
+// Thêm lắng nghe phím Enter cho input tên
+if (playerNameInput) {
+  playerNameInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      saveScore();
+    }
+  });
 }
 
 // Chạy ứng dụng khi tải xong
